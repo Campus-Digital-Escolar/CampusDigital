@@ -85,9 +85,6 @@ class GradingPeriodController extends Controller
     public function destroy(GradingPeriod $gradingPeriod)
     {
         try {
-            // Nota: Si en el futuro creas la tabla 'grades' (Calificaciones),
-            // deberás validar aquí que ($gradingPeriod->grades()->exists()) antes de tumbarlo.
-
             $gradingPeriod->delete();
             return $this->successResponse(null, 'Periodo de parcial eliminado del sistema.');
         } catch (Exception $e) {
