@@ -26,7 +26,6 @@ class SportStageController extends Controller
 
     public function show(SportStage $sportStage)
     {
-        // Se puede añadir un load('sportEvents') si tu frontend requiere ver los partidos de esta fase de golpe
         return $this->successResponse(new SportStageResource($sportStage));
     }
 
