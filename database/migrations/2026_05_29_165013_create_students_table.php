@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('enrollment_number');
+            $table->string('name');
+            $table->string('lastname');
+            $table->date('birthday');
+            $table->enum('gender', ['male', 'female', 'other']);
             $table->string('photo_path', 255)->nullable();
             $table->decimal('grade_average', 4, 1)->default(0.0);
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

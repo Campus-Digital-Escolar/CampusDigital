@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('stat_definition_id')->constrained('sport_stat_definitions')->onDelete('cascade');
             $table->string('value', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

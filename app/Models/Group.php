@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Group extends Model
 {
     protected $fillable = [
-        'grade',
+        'group_grade_id',
         'section',
-        'educational_level_id',
-        'school_year_id',
-        'tutor_id',
+        'sch'
     ];
 
-    public function educationalLevel(): BelongsTo
+    public function groupGrade(): BelongsTo
     {
-        return $this->belongsTo(EducationalLevel::class);
+        return $this->belongsTo(GroupGrade::class, 'group_grade_id');
     }
 
     public function students(): BelongsToMany

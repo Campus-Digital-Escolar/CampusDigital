@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 100)->unique();
             $table->enum('type', ['value', 'emotion']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

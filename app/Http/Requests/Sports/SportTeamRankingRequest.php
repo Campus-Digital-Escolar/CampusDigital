@@ -20,6 +20,16 @@ class SportTeamRankingRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    protected function prepareForValidation(): void
+    {
+        $user = auth()->user();
+        $schoolId = $user?->school_id ?? $this->input('school_id');
+
+        $this->merge([
+            'school_id' => $schoolId,
+        ]);
+    }
     public function rules(): array
     {
         return [

@@ -20,15 +20,29 @@ class GradeRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    protected function prepareForValidation(): void
+    {
+        $user = auth()->user();
+        $schoolId = $user?->school_id ?? $this->input('school_id');
+
+        $this->merge([
+            'school_id' => $schoolId,
+        ]);
+    }
+
     public function rules(): array
     {
+        $isUpdate = $this->isMethod('put') || $this->isMethod('patch');
+
         return [
-            'school_id'          => 'required|exists:schools,id',
-            'student_id'         => 'required|exists:students,id',
-            'subject_id'         => 'required|exists:subjects,id',
-            'academic_period_id' => 'required|exists:academic_periods,id',
-            'school_year_id'     => 'required|exists:school_years,id',
-            'score'              => 'required|numeric|between:0,10.0'
+            'school_id'          => $isUpdate ? 'sometimes|exists:schools,id' : 'required|exists:schools,id',
+            'student_id'         => $isUpdate ? 'sometimes|exists:students,id' : 'required|exists:students,id',
+            'subject_id'         => $isUpdate ? 'sometimes|exists:subjects,id' : 'required|exists:subjects,id',
+            'school_year_id'     => $isUpdate ? 'sometimes|exists:school_years,id' : 'required|exists:school_years,id',
+            'academic_period_id' => $isUpdate ? 'sometimes|exists:academic_periods,id' : 'required|exists:academic_periods,id',
+            'grading_period_id'  => $isUpdate ? 'sometimes|exists:grading_periods,id' : 'required|exists:grading_periods,id',
+            'score'              => 'required|numeric|min:0|max:10',
         ];
     }
 

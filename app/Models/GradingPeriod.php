@@ -11,14 +11,19 @@ class GradingPeriod extends Model
 
     protected $fillable = [
         'academic_period_id',
+        'grading_period_type_id',
         'name',
+        'order',
         'start_date',
         'end_date',
+        'weight',
+        'status',
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'weight' => 'decimal:2',
     ];
 
     public function academicPeriod(): BelongsTo
@@ -26,9 +31,15 @@ class GradingPeriod extends Model
         return $this->belongsTo(AcademicPeriod::class);
     }
 
+    public function gradingPeriodType()
+    {
+        return $this->belongsTo(GradingPeriodType::class);
+    }
+
     public function isOpenForCapture(): bool
     {
         $now = now();
-        return $now->between($this->start_capture_date, $this->end_capture_date);
+
+        return $now->between($this->start_date, $this->end_date);
     }
 }

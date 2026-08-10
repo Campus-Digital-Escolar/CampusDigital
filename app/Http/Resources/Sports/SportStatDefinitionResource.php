@@ -16,7 +16,11 @@ class SportStatDefinitionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,      // Ej: "Faltas"
+            'sport_id' => $this->sport_id,
+            'sport' => new SportResource($this->whenLoaded('sport')),
+            'name' => $this->name,
+            'code' => $this->code,
+            'description' => $this->description,
             'data_type' => $this->data_type // conteo, tiempo, texto
         ];
     }

@@ -20,6 +20,17 @@ class SchoolTeamRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    protected function prepareForValidation(): void
+    {
+        $user = auth()->user();
+        $schoolId = $user?->school_id ?? $this->input('school_id');
+
+        $this->merge([
+            'school_id' => $schoolId,
+        ]);
+    }
+
     public function rules(): array
     {
         return [
@@ -27,7 +38,7 @@ class SchoolTeamRequest extends FormRequest
             'sport_id'         => 'required|exists:sports,id',
             'coach_teacher_id' => 'nullable|exists:teachers,id',
             'name'             => 'required|string|max:100',
-            'icon_path'        => 'nullable|string|max:255'
+            'icon_path'        => 'nullable|file|mimes:svg,webp,png,jpg,jpeg|max:2048'
         ];
     }
 }

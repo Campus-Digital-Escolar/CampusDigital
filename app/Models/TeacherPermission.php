@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TeacherPermission extends Model
 {
     protected $table = 'teacher_permissions';
+
     protected $fillable = [
         'user_id',
         'module_name',

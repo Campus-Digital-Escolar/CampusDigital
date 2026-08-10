@@ -16,9 +16,11 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->foreignId('school_year_id')->constrained('school_years')->onDelete('cascade');
             $table->foreignId('academic_period_id')->constrained('academic_periods')->onDelete('cascade');
+            $table->foreignId('grading_period_id')->constrained('grading_periods')->onDelete('cascade');
             $table->string('title', 150);
             $table->string('diploma_path', 255);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

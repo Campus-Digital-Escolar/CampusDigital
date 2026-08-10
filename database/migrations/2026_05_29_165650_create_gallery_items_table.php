@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('file_path', 255);
             $table->enum('type', ['image', 'video']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

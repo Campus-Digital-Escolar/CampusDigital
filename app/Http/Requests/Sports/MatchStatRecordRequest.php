@@ -24,6 +24,7 @@ class MatchStatRecordRequest extends FormRequest
     {
         return [
             'event_id'           => 'required|exists:sport_events,id',
+            'team_id'             => 'required|exists:school_teams,id',
             'participant_id'     => 'required|exists:event_participants,id',
             'stat_definition_id' => 'required|exists:sport_stat_definitions,id',
             'value'              => 'required|string|max:50'

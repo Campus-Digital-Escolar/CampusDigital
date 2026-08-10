@@ -29,4 +29,5 @@ class MatchStatRecord extends Model
     {
         return $this->belongsTo(SportStatDefinition::class, 'stat_definition_id');
     }
+
 }

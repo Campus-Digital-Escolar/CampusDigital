@@ -10,7 +10,6 @@ class EducationalLevel extends Model
     protected $table = 'educational_levels';
     protected $fillable = [
         'name',
-        'slug'
     ];
 
     public function subjects(): HasMany

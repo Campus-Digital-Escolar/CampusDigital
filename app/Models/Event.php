@@ -17,7 +17,9 @@ class Event extends Model
         'target_grade',
         'event_date',
         'status',
-        'reminder_days_before'
+        'reminder_days_before',
+        'educational_level_id',
+        'group_id'
     ];
     protected $casts = ['event_date' => 'datetime'];
 
@@ -34,5 +36,15 @@ class Event extends Model
     public function gallery(): BelongsTo
     {
         return $this->belongsTo(Gallery::class);
+    }
+
+    public function educationalLevel(): BelongsTo
+    {
+        return $this->belongsTo(EducationalLevel::class);
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
     }
 }

@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RegisterRequest;
+use App\Http\Requests\Admin\UserRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\Admin\UserResource;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Exception;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -43,6 +47,8 @@ class AuthController extends Controller
                 return $this->errorResponse("Las credenciales introducidas no son correctas.", 401);
             }
 
+            event(new Login('sanctum', $user, false));
+
             $token = $user->createToken('auth_token')->plainTextToken;
 
             $data = [
@@ -70,31 +76,76 @@ class AuthController extends Controller
         }
     }
 
-    public function register(RegisterRequest $request)
+    public function syncPasswordReset(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $user->update([
+            'password' => Hash::make($request->password),
+            'temp_password_plain' => null,
+        ]);
+
+        return $this->successResponse(null, "Contraseña sincronizada correctamente en la base de datos.");
+    }
+
+    public function register(UserRequest $request)
     {
         try {
             $data = $request->validated();
+            $teacher = null;
 
-            $user = User::create([
-                'name'      => $data['name'],
-                'lastname'  => $data['lastname'],
-                'username'  => $data['username'],
-                'email'     => $data['email'],
-                'password'  => Hash::make($data['password']),
-                'role_id'   => $request->user()?->role_id ?? ($data['role_id'] ?? null),
-                'school_id'  => $data['school_id'],
-                'active'     => $data['active'] ?? true,
-            ]);
+            $user = DB::transaction(function () use ($data, $request, &$teacher) {
+
+                $user = User::create([
+                    'name'      => $data['name'],
+                    'lastname'  => $data['lastname'],
+                    'username'  => $data['username'],
+                    'email'     => $data['email'],
+                    'title'     => $data['title'] ?? null,
+                    'password'  => Hash::make($data['password']),
+                    'role_id'   => $data['role_id'],
+                    'school_id' => $data['school_id'],
+                    'active'    => $data['active'] ?? true,
+                ]);
+
+                if ($request->has('teacher_id') && !empty($data['teacher_id'])) {
+                    $teacher = Teacher::find($data['teacher_id']);
+                    if ($teacher) {
+                        $teacher->update(['user_id' => $user->id]);
+                    }
+                }
+
+                if (!empty($data['permissions'])) {
+                    foreach ($data['permissions'] as $moduleName => $perms) {
+                        $user->permissions()->create([
+                            'module_name' => $moduleName,
+                            'is_visible'  => (bool) $perms['is_visible'],
+                            'can_add'     => (bool) $perms['can_add'],
+                            'can_edit'    => (bool) $perms['can_edit'],
+                            'can_delete'  => (bool) $perms['can_delete'],
+                        ]);
+                    }
+                }
+
+                return $user;
+            });
 
             return $this->successResponse(
-                new UserResource($user),
-                'Usuario registrado exitosamente en el sistema.',
+                new UserResource($user->load('permissions')),
+                $teacher
+                    ? 'Usuario registrado y vinculado a su perfil docente exitosamente con sus respectivos permisos.'
+                    : 'Administrador global registrado exitosamente con sus privilegios de sistema.',
                 201
             );
 
         } catch (Exception $e) {
             return $this->errorResponse(
-                'No se pudo registrar el usuario base.',
+                'No se pudo registrar el usuario base ni sus permisos.',
                 500,
                 $e->getMessage()
             );
@@ -117,7 +168,7 @@ class AuthController extends Controller
     // Me — devuelve el usuario autenticado con su rol
     public function me(Request $request)
     {
-        $user = $request->user()->load('role');
+        $user = $request->user()->load('role', 'school', 'permissions', 'teacher');
 
         return $this->successResponse(new UserResource($user), 'Usuario autenticado', 200);
     }

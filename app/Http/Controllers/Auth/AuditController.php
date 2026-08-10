@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Audit\AuditResource;
+use App\Http\Resources\Auth\AuditResource;
 use App\Models\Audit;
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
 
 class AuditController extends Controller
 {

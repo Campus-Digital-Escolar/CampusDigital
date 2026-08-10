@@ -17,12 +17,14 @@ class AcademicPeriodResource extends JsonResource
         return [
             'id'             => $this->id,
             'school_year_id' => $this->school_year_id,
+            'educational_level_id' => $this->educational_level_id,
             'name'           => $this->name,
             'start_date'     => $this->start_date?->format('Y-m-d'),
             'end_date'       => $this->end_date?->format('Y-m-d'),
 
             // Relaciones condicionales (Padre e Hijos)
             'school_year'    => new SchoolYearResource($this->whenLoaded('schoolYear')),
+            'educational_level'    => new EducationalLevelResource($this->whenLoaded('educationalLevel')),
             'grading_periods' => GradingPeriodResource::collection($this->whenLoaded('gradingPeriods')),
         ];
     }

@@ -25,7 +25,14 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'signature_path',
+        'signature_enabled',
         'active',
+        'last_login_at',
+        'fcm_token',
+        'device_type',
+        'device_name',
+        'last_used_at',
     ];
 
     protected $hidden = [
@@ -37,6 +44,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'active' => 'boolean',
+        'signature_enabled' => 'boolean',
+        'last_login_at' => 'datetime',
     ];
 
     public function role(): BelongsTo
@@ -69,9 +78,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function internalComunications(): BelongsToMany
+    public function internalCommunications(): BelongsToMany
     {
-        return $this->belongsToMany(InternalComunication::class, 'internal_comunication_user');
+        return $this->belongsToMany(InternalCommunication::class, 'internal_communication_user', 'internal_communication_id', 'user_id')
+            ->withPivot('notes')
+            ->withTimestamps();
     }
 
     public function notifications(): HasMany
@@ -82,5 +93,20 @@ class User extends Authenticatable
     public function galleryLikes(): HasMany
     {
         return $this->hasMany(GalleryLike::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'parent_student', 'parent_user_id', 'student_id');
+    }
+
+    public function permissions(): HasMany
+    {
+        return $this->hasMany(TeacherPermission::class, 'user_id');
+    }
+
+    public function fcmTokens(): HasMany
+    {
+        return $this->hasMany(UserFcmToken::class);
     }
 }

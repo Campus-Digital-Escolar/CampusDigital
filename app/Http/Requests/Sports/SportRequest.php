@@ -20,12 +20,28 @@ class SportRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    protected function prepareForValidation(): void
+    {
+        $user = auth()->user();
+        $schoolId = $user?->school_id ?? $this->input('school_id');
+
+        $this->merge([
+            'school_id'  => $schoolId,
+        ]);
+    }
+
     public function rules(): array
     {
         return [
             'name' => 'required|string|max:100',
-            'icon_path' => 'nullable|string|max:255',
+            'category' => 'required|string|max:100',
+            'school_id' => 'required|exists:schools,id',
+            'icon_path' => 'nullable|file|mimes:svg,webp,png,jpg,jpeg|max:2048',
+            'rules' => 'nullable|string',
             'status' => 'nullable|in:active,in_development',
+            'active' => 'nullable|boolean',
+            'statDefinitions' => 'nullable|string',
         ];
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('school_id')->constrained('schools');
             $table->boolean('active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

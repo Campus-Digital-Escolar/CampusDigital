@@ -23,7 +23,7 @@ class Post extends Model
         return $this->belongsTo(School::class);
     }
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -43,7 +43,7 @@ class Post extends Model
         return $this->belongsTo(PostTagCatalog::class, 'emotion_tag_id');
     }
 
-    public function students(): BelongsToMany
+    public function taggedStudents(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'post_student', 'post_id', 'student_id');
     }

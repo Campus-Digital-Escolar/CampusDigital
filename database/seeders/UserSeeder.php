@@ -21,7 +21,6 @@ class UserSeeder extends Seeder
             'email'     => 'adminDN@campus.com',
             'password'  => Hash::make('admin1234'),
             'role_id'   => 1,
-            'school_id' => 1,
             'active'    => true,
         ]);
 
@@ -32,18 +31,6 @@ class UserSeeder extends Seeder
             'email'     => 'adming@campus.com',
             'password'  => Hash::make('adming123'),
             'role_id'   => 2,
-            'school_id' => 1,
-            'active'    => true,
-        ]);
-
-        User::create([
-            'name'      => 'Carlos',
-            'lastname' => 'Mendoza Silva',
-            'username'  => 'carlos.mendoza',
-            'email'     => 'carlos.mendoza@campus.com',
-            'password'  => Hash::make('carlos123'),
-            'role_id'   => 3,
-            'school_id' => 1,
             'active'    => true,
         ]);
     }

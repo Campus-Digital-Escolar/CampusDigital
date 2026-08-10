@@ -23,11 +23,8 @@ class GroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'grade'                => 'required|string|max:5',
+            'group_grade_id'       => 'required|exists:group_grades,id',
             'section'              => 'required|string|max:5',
-            'educational_level_id' => 'required|exists:educational_levels,id',
-            'school_year_id'       => 'required|exists:school_years,id',
-            'tutor_id'             => 'nullable|exists:teachers,id'
         ];
     }
 }

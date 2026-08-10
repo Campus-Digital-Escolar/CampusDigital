@@ -20,6 +20,17 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    protected function prepareForValidation(): void
+    {
+        $user = auth()->user();
+        $schoolId = $user?->school_id ?? $this->input('school_id');
+
+        $this->merge([
+            'school_id' => $schoolId,
+        ]);
+    }
+
     public function rules(): array
     {
         $isUserCreation = $this->isMethod('post');
@@ -28,12 +39,12 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|max:150',
             'lastname' => 'required|string|max:150',
             'username' => 'required|string|max:50|unique:users,username,' . ($this->user?->id ?? ''),
-            'email' => 'required|email|max:150|unique:users,email,' . ($this->user?->id ?? ''),
+            'email' => 'nullable|email|max:150|unique:users,email,' . ($this->user?->id ?? ''),
             'password' => $isUserCreation
                 ? 'required|string|min:8|confirmed'
                 : 'nullable|string|min:8|confirmed',
-            'role_id' => 'required|integer|exists:roles,id',
-            'school_id' => 'nullable|integer|exists:schools,id',
+            'role_id' => 'required|integer|exists:roles,id|not_in:1',
+            'school_id' => 'required|integer|exists:schools,id',
             'active' => 'nullable|boolean',
         ];
     }

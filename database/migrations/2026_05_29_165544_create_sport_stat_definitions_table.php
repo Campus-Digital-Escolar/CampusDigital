@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sport_id')->constrained('sports')->onDelete('cascade');
             $table->string('name', 100);
+            $table->string('code', 20);
+            $table->text('description')->nullable();
             $table->enum('data_type', ['conteo', 'tiempo', 'texto']);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

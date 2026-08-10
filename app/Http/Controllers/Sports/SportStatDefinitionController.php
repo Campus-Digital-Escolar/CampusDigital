@@ -17,9 +17,16 @@ class SportStatDefinitionController extends Controller
         return $this->successResponse(SportStatDefinitionResource::collection(SportStatDefinition::all()));
     }
 
+    public function indexBySport(int $sportId)
+    {
+        $definitions = SportStatDefinition::where('sport_id', $sportId)->get();
+        return $this->successResponse(SportStatDefinitionResource::collection($definitions), "Definiciones estadísticas obtenidas.");
+    }
+
     public function store(SportStatDefinitionRequest $request)
     {
-        $def = SportStatDefinition::create($request->validated());
-        return $this->successResponse(new SportStatDefinitionResource($def), 'Métrica estadística configurada', 201);
+        $definition = SportStatDefinition::create($request->validated());
+
+        return $this->successResponse(new SportStatDefinitionResource($definition), "Definición estadística creada correctamente.", 201);
     }
 }

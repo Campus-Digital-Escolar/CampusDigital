@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Destinatario
+            $table->enum('type', ['official_comunication', 'internal_comunication', 'grades', 'sports', 'event', 'post', 'honor_roll']);
             $table->string('title', 150);
             $table->text('body');
-            $table->enum('type', ['comunicado', 'calificacion', 'deportes', 'evento', 'publicacion', 'cuadro_honor']);
-            $table->string('target_action', 100)->nullable();
-            $table->unsignedBigInteger('target_id')->nullable();
+            // Datos adicionales payload (JSON) para redirección en frontend (ej: { "url": "/communications/12", "action": "open_modal" })
+            $table->json('data')->nullable();
+            $table->nullableMorphs('notifiable');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['user_id', 'read_at']);
         });

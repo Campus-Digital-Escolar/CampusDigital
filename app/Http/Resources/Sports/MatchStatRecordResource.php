@@ -17,9 +17,15 @@ class MatchStatRecordResource extends JsonResource
         return [
             'id' => $this->id,
             'event_id' => $this->event_id,
+            'team_id' => $this->team_id,
             'participant_id' => $this->participant_id,
-            'metric' => $this->statDefinition->name ?? null,
-            'value' => (int) $this->value,
+            'stat_definition_id' => $this->stat_definition_id,
+            'value' => $this->value,
+            'created_at' => $this->created_at?->toIso8601String(),
+
+            'team' => new SchoolTeamResource($this->whenLoaded('team')),
+            'participant' => new EventParticipantResource($this->whenLoaded('participant')),
+            'stat_definition' => new SportStatDefinitionResource($this->whenLoaded('statDefinition')),
         ];
     }
 }

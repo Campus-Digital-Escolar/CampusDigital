@@ -11,10 +11,15 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'enrollment_number',
+        'name',
+        'lastname',
+        'birthday',
+        'gender',
         'photo_path',
-        'grade_average'
+        'grade_average',
+        'status',
     ];
+
     protected $casts = [
         'grade_average' => 'decimal:1'
     ];
@@ -31,7 +36,9 @@ class Student extends Model
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'group_student');
+        return $this->belongsToMany(Group::class, 'group_student')
+            ->withPivot('active', 'school_year_id')
+            ->withTimestamps();
     }
 
     public function grades(): HasMany

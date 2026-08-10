@@ -11,9 +11,13 @@ class AcademicPeriod extends Model
     protected $table = 'academic_periods';
     protected $fillable = [
         'school_year_id',
+        'educational_level_id',
+        'period_type_id',
         'name',
+        'order',
         'start_date',
         'end_date',
+        'active',
     ];
 
     protected $casts = [
@@ -41,8 +45,17 @@ class AcademicPeriod extends Model
         return $this->belongsTo(SchoolYear::class);
     }
 
+    public function educationalLevel(): BelongsTo
+    {
+        return $this->belongsTo(EducationalLevel::class);
+    }
     public function gradingPeriods(): HasMany
     {
         return $this->hasMany(GradingPeriod::class);
+    }
+
+    public function periodType()
+    {
+        return $this->belongsTo(PeriodType::class);
     }
 }

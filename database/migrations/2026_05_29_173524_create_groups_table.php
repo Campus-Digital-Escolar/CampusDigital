@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->string('grade', 5);
-            $table->string('section', 5);
-            $table->foreignId('educational_level_id')->constrained('educational_levels')->onDelete('restrict');
-            $table->foreignId('school_year_id')->constrained('school_years')->onDelete('restrict');
-            $table->foreignId('tutor_id')->nullable()->constrained('teachers')->onDelete('set null');
+            $table->foreignId('group_grade_id')->constrained('group_grades')->onDelete('cascade');
+            $table->enum('section', ['A', 'B', 'C', 'D', 'E', 'F']);
             $table->timestamps();
-
-            $table->index(['educational_level_id', 'tutor_id'], 'idx_groups_tutor');
+            $table->softDeletes();
         });
     }
 

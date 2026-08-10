@@ -14,12 +14,20 @@ class SchoolTeamController extends Controller
 
     public function index()
     {
-        return $this->successResponse(SchoolTeamResource::collection(SchoolTeam::with(['sport', 'coach.user'])->get()));
+        $teams = SchoolTeam::with(['coach', 'sport'])->get();
+        return $this->successResponse(SchoolTeamResource::collection($teams), "Equipos obtenidos exitosamente.");
     }
 
     public function store(SchoolTeamRequest $request)
     {
-        $team = SchoolTeam::create($request->validated());
-        return $this->successResponse(new SchoolTeamResource($team), 'Equipo escolar registrado', 201);
+        $data = $request->validated();
+
+        if ($request->hasFile('icon_path')) {
+            $data['icon_path'] = $request->file('icon_path')->store('teams/icons', 'public');
+        }
+
+        $team = SchoolTeam::create($data);
+
+        return $this->successResponse(new SchoolTeamResource($team), "Equipo registrado con éxito.", 201);
     }
 }

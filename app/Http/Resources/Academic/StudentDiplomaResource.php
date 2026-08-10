@@ -19,10 +19,11 @@ class StudentDiplomaResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'diploma_url' => asset($this->diploma_path),
+            'diploma_path' => asset($this->diploma_path),
             'student' => new StudentResource($this->whenLoaded('student')),
             'school_year' => $this->schoolYear->label ?? null,
-            'academic_period' => $this->academicPeriod->name ?? null
+            'academic_period' => $this->academicPeriod->name ?? null,
+            'grading_period' => $this->gradingPeriod->name ?? null,
         ];
     }
 }

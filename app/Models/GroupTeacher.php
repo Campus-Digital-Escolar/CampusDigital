@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GroupTeacher extends Pivot
 {
     protected $table = 'group_teacher';
-    public $incrementing = true;
+    protected $fillable = [
+        'teacher_id',
+        'group_id',
+        'subject_id',
+        'school_year_id'
+    ];
 
     public function teacher(): BelongsTo
     {

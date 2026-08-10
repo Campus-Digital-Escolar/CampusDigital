@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('team_id')->nullable()->constrained('school_teams')->onDelete('cascade');
             $table->string('result_value', 50)->default('0');
             $table->boolean('is_winner')->default(false);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

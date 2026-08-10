@@ -17,7 +17,9 @@ class SubjectResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'educational_level' => $this->educationalLevel->name ?? null
+            'educational_level_id' => $this->educational_level_id,
+
+            'educational_level'    => new EducationalLevelResource($this->whenLoaded('educationalLevel')),
         ];
     }
 }

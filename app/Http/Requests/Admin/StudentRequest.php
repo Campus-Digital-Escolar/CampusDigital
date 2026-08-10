@@ -20,13 +20,30 @@ class StudentRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    protected function prepareForValidation(): void
+    {
+        $user = auth()->user();
+        $schoolId = $this->input('school_id') ?? $user?->school_id;
+
+        $this->merge([
+            'school_id' => $schoolId,
+        ]);
+    }
+
     public function rules(): array
     {
         return [
             'user_id'           => 'nullable|exists:users,id',
-            'enrollment_number' => 'required|string|max:255',
-            'photo_path'        => 'nullable|string|max:255',
-            'grade_average'     => 'nullable|numeric|between:0,10.0'
+            'school_id'         => 'required|exists:schools,id',
+            'name'              => 'required|string|max:255',
+            'lastname'          => 'required|string|max:255',
+            'birthday'          => 'required|date',
+            'gender'            => 'required|in:male,female,other',
+            'photo'             => 'nullable|image|max:2048',
+            'grade_average'     => 'nullable|numeric|between:0,10.0',
+            'group_id'          => 'required|exists:groups,id',
+
         ];
     }
 

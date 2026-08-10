@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('emotion_tag_id')->nullable()->constrained('post_tags_catalog')->onDelete('set null');
             $table->string('category_tag', 100)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

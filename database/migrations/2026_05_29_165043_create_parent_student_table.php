@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('parent_user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index('parent_user_id');
             $table->index('student_id');

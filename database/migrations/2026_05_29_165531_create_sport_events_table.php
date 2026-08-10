@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('is_live')->default(false);
             $table->enum('status', ['scheduled', 'ongoing', 'completed', 'cancelled'])->default('scheduled');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['event_date', 'status']);
         });

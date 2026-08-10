@@ -4,6 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class NotificationRequest extends FormRequest
 {
@@ -24,12 +25,17 @@ class NotificationRequest extends FormRequest
     {
         return [
             'user_id'       => 'required|exists:users,id',
-            'title'         => 'required|string|max:150',
-            'body'          => 'required|string',
-            'type'          => 'required|in:comunicado,calificacion,deportes,evento,publicacion,cuadro_honor',
-            'target_action' => 'nullable|string|max:100',
-            'target_id'     => 'nullable|integer',
-            'read_at'       => 'nullable|date'
+            'type'          => ['required',
+                Rule::in([
+                    'official_comunication', 'internal_comunication', 'grades',
+                    'sports', 'event', 'post', 'honor_roll',
+                ]),
+            ],
+            'title'             => 'required|string',
+            'body'              => 'required|string',
+            'data'              => 'nullable|array',
+            'notifiable_type'   => 'nullable|string',
+            'notifiable_id'     => 'nullable|integer',
         ];
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('address', 255)->nullable();
             $table->string('logo_path', 255)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('statistic_type', 50);
             $table->string('statistic_value', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

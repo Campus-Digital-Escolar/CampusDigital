@@ -26,6 +26,7 @@ class StudentDiplomaRequest extends FormRequest
             'student_id'         => 'required|exists:students,id',
             'school_year_id'     => 'required|exists:school_years,id',
             'academic_period_id' => 'required|exists:academic_periods,id',
+            'grading_period_id'  => 'required|exists:grading_periods,id',
             'title'              => 'required|string|max:150',
             'diploma_path'       => 'required|string|max:255'
         ];

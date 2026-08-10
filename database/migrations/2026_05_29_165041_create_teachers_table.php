@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('enrollment_number');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->string('name');
+            $table->string('lastname');
+            $table->foreignId('job_position_id')->nullable()->constrained('job_positions')->onDelete('set null');
+            $table->enum('title', ['Dir.', 'Lic.', 'Prof.', 'Ing.', 'Dr.', 'Mtr.']);
             $table->string('profession', 150);
             $table->string('photo_path', 255)->nullable();
+            $table->enum('status', ['active', 'inactive', 'licensed', 'intern', 'provisinal']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

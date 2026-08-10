@@ -12,6 +12,7 @@ class Grade extends Model
         'student_id',
         'subject_id',
         'academic_period_id',
+        'grading_period_id',
         'school_year_id',
         'score'];
     protected $casts = ['score' => 'decimal:1'];
@@ -23,7 +24,7 @@ class Grade extends Model
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
     public function subject(): BelongsTo
@@ -34,6 +35,11 @@ class Grade extends Model
     public function academicPeriod(): BelongsTo
     {
         return $this->belongsTo(AcademicPeriod::class);
+    }
+
+    public function gradingPeriod(): BelongsTo
+    {
+        return $this->belongsTo(GradingPeriod::class);
     }
 
     public function schoolYear(): BelongsTo

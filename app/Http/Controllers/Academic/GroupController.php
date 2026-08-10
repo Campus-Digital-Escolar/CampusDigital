@@ -7,6 +7,7 @@ use App\Http\Requests\Academic\GroupRequest;
 use App\Http\Resources\Academic\GroupResource;
 use App\Models\Group;
 use App\Traits\ApiResponse;
+use Exception;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -15,7 +16,15 @@ class GroupController extends Controller
 
     public function index()
     {
-        return $this->successResponse(GroupResource::collection(Group::with(['tutor.user'])->get()));
+        try {
+            $groups = Group::with(['groupGrade.educationalLevel', 'schoolYear'])
+                ->get();
+            $formattedGroups = GroupResource::collection($groups);
+
+            return $this->successResponse($formattedGroups, "Catálogo de grupos obtenido con éxito.");
+        } catch (Exception $e) {
+            return $this->errorResponse("Error al consultar los grupos", 500, $e->getMessage());
+        }
     }
 
     public function store(GroupRequest $request)

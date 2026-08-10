@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('value_tag_id')->nullable()->constrained('post_tags_catalog')->onDelete('set null');
             $table->foreignId('emotion_tag_id')->nullable()->constrained('post_tags_catalog')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

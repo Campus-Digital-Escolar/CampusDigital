@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('sports', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
+            $table->string('category', 100);
             $table->string('icon_path', 255)->nullable();
+            $table->text('rules')->nullable();
             $table->enum('status', ['active', 'in_development'])->default('in_development');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

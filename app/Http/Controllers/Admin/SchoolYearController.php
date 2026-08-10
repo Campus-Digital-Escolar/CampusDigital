@@ -17,7 +17,7 @@ class SchoolYearController extends Controller
     public function index()
     {
         try {
-            $years = SchoolYear::orderByDesc('start_date')->get();
+            $years = SchoolYear::where('active', true)->orderByDesc('start_date')->get();
             return $this->successResponse(
                 SchoolYearResource::collection($years),
                 'Ciclos escolares obtenidos exitosamente.'

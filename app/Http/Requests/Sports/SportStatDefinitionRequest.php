@@ -25,6 +25,8 @@ class SportStatDefinitionRequest extends FormRequest
         return [
             'sport_id'  => 'required|exists:sports,id',
             'name'      => 'required|string|max:100', // Ej: "Goles", "Tarjetas Amarillas", "Faltas"
+            'code'      => 'required|string|max:20',
+            'description' => 'required|string',
             'data_type' => 'required|in:conteo,tiempo,texto'
         ];
     }

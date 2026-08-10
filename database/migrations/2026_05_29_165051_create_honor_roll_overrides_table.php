@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('reason');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['school_id', 'school_year_id', 'academic_period_id'], 'idx_honor_roll_school_perf');
         });

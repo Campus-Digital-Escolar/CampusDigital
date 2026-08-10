@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('match_time', 10)->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

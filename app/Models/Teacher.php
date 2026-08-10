@@ -10,9 +10,13 @@ class Teacher extends Model
 {
     protected $fillable = [
         'user_id',
-        'enrollment_number',
+        'name',
+        'lastname',
+        'job_position_id',
+        'title',
         'profession',
-        'photo_path'
+        'photo_path',
+        'status',
     ];
 
     public function user(): BelongsTo
@@ -22,11 +26,18 @@ class Teacher extends Model
 
     public function groupsTeachers(): HasMany
     {
-        return $this->hasMany(GroupTeacher::class);
+        return $this->hasMany(GroupTeacher::class, 'teacher_id');
     }
 
-    public function tutoredGroups(): HasMany
+    public function tutoredGroups()
     {
-        return $this->hasMany(Group::class, 'tutor_id');
+        return $this->belongsToMany(Group::class, 'group_tutor', 'tutor_id', 'group_id')
+            ->withPivot('academic_period_id', 'school_year_id', 'active')
+            ->withTimestamps();
+    }
+
+    public function jobPosition()
+    {
+        return $this->belongsTo(JobPosition::class);
     }
 }

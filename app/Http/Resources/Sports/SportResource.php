@@ -17,7 +17,9 @@ class SportResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'category' => $this->category,
             'icon_path' => $this->icon_path,
+            'rules' => $this->rules,
             'status' => $this->status,
         ];
     }

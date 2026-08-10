@@ -19,8 +19,9 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->enum('type', ['holiday', 'administrative', 'vacation', 'graduation', 'event']);
-            $table->string('icon_marker', 50)->nullable();
+            $table->string('icon_marker', 255)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
