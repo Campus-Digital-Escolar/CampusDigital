@@ -32,7 +32,7 @@ class SchoolTeam extends Model
         return $this->belongsTo(Teacher::class, 'coach_teacher_id');
     }
 
-    public function eventParticipants(): HasMany
+    public function participants(): HasMany
     {
         return $this->hasMany(EventParticipant::class, 'team_id');
     }

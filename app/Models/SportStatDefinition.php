@@ -11,6 +11,8 @@ class SportStatDefinition extends Model
     protected $fillable = [
         'sport_id',
         'name',
+        'code',
+        'description',
         'data_type'
     ];
     public function sport(): BelongsTo

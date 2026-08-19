@@ -13,7 +13,6 @@ class SportEvent extends Model
         'school_id',
         'sport_id',
         'parent_event_id',
-        'educational_level_id',
         'stage_id',
         'event_date',
         'is_live',
@@ -26,16 +25,26 @@ class SportEvent extends Model
 
     public function sport(): BelongsTo
     {
-        return $this->belongsTo(Sport::class);
+        return $this->belongsTo(Sport::class, 'sport_id');
     }
 
     public function stage(): BelongsTo
     {
-        return $this->belongsTo(SportStage::class);
+        return $this->belongsTo(SportStage::class, 'stage_id');
     }
 
     public function participants(): HasMany
     {
-        return $this->hasMany(EventParticipant::class, 'event_id');
+        return $this->hasMany(EventParticipant::class);
+    }
+
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class, 'school_id');
+    }
+
+    public function scopeOfSport($query, $sportId)
+    {
+        return $query->where('sport_id', $sportId);
     }
 }

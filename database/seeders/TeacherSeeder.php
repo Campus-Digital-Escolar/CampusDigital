@@ -17,6 +17,7 @@ class TeacherSeeder extends Seeder
         $teachersData = [
             // --- PREESCOLAR ---
             [
+                'school_id' => 1,
                 'title' => 'Lic.',
                 'name' => 'Mariana',
                 'lastname' => 'Gómez Peralta',
@@ -24,6 +25,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Lic. en Educación Preescolar',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Prof.',
                 'name' => 'Sofía',
                 'lastname' => 'Hernández Castro',
@@ -31,6 +33,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Lic. en Pedagogía',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Lic.',
                 'name' => 'Laura',
                 'lastname' => 'Vargas Méndez',
@@ -40,6 +43,7 @@ class TeacherSeeder extends Seeder
 
             // --- PRIMARIA ---
             [
+                'school_id' => 1,
                 'title' => 'Mtr.',
                 'name' => 'Carlos',
                 'lastname' => 'Martínez Ruiz',
@@ -47,6 +51,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Maestría en Gestión Educativa',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Prof.',
                 'name' => 'Ana Beatriz',
                 'lastname' => 'López Morales',
@@ -54,6 +59,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Lic. en Educación Primaria',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Lic.',
                 'name' => 'Fernando',
                 'lastname' => 'Torres Delgado',
@@ -63,6 +69,7 @@ class TeacherSeeder extends Seeder
 
             // --- SECUNDARIA ---
             [
+                'school_id' => 1,
                 'title' => 'Lic.',
                 'name' => 'Roberto',
                 'lastname' => 'Navarro Silva',
@@ -70,6 +77,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Lic. en Ciencias de la Educación',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Ing.',
                 'name' => 'Alejandro',
                 'lastname' => 'Sánchez Reyes',
@@ -77,6 +85,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Ingeniero Químico',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Mtr.',
                 'name' => 'Claudia',
                 'lastname' => 'Ortega Jiménez',
@@ -84,6 +93,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Lic. en Psicología Educativa',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Prof.',
                 'name' => 'Gabriel',
                 'lastname' => 'Mendoza Ríos',
@@ -93,6 +103,7 @@ class TeacherSeeder extends Seeder
 
             // --- PREPARATORIA ---
             [
+                'school_id' => 1,
                 'title' => 'Dr.',
                 'name' => 'Enrique',
                 'lastname' => 'Villanueva Peña',
@@ -100,6 +111,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Doctorado en Educación',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Ing.',
                 'name' => 'Diana Marcela',
                 'lastname' => 'García Cordero',
@@ -107,6 +119,7 @@ class TeacherSeeder extends Seeder
                 'profession' => 'Ingeniera en Sistemas Computacionales',
             ],
             [
+                'school_id' => 1,
                 'title' => 'Lic.',
                 'name' => 'Javier',
                 'lastname' => 'Espinosa Blanco',
@@ -123,6 +136,7 @@ class TeacherSeeder extends Seeder
                     'lastname' => $teacher['lastname'],
                 ],
                 [
+                    'school_id' => $teacher['school_id'],
                     'user_id' => null,
                     'job_position_id' => $teacher['job_position_id'],
                     'title' => $teacher['title'],

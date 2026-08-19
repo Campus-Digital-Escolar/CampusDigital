@@ -36,12 +36,16 @@ class SportEventRequest extends FormRequest
         return [
             'school_id'            => 'required|exists:schools,id',
             'sport_id'             => 'required|exists:sports,id',
-            'parent_event_id'      => 'nullable|exists:sport_events,id', // Para fases ligadas (ej: vuelta de una llave)
-            'educational_level_id' => 'required|exists:educational_levels,id',
             'stage_id'             => 'required|exists:sport_stages,id',
             'event_date'           => 'required|date',
             'is_live'              => 'nullable|boolean',
-            'status'               => 'nullable|in:scheduled,ongoing,completed,cancelled'
+            'status'               => 'nullable|in:scheduled,ongoing,completed,cancelled',
+
+            'participants' => 'required|array|min:1',
+            'participants.*.student_id' => 'nullable|exists:students,id',
+            'participants.*.school_team_id' => 'nullable|exists:school_teams,id',
+            'participants.*.external_participant_name' => 'nullable|string',
+            'participants.*.external_institution' => 'nullable|string',
         ];
     }
 }

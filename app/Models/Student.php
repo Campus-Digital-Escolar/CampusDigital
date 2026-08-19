@@ -50,4 +50,9 @@ class Student extends Model
     {
         return $this->hasMany(StudentDiploma::class);
     }
+
+    public function participations(): HasMany
+    {
+        return $this->hasMany(EventParticipant::class);
+    }
 }

@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             GradingPeriodSeeder::class,
             SubjectSeeder::class,
             PostTagCatalogSeeder::class,
+            SportStageSeeder::class,
         ]);
     }
 }

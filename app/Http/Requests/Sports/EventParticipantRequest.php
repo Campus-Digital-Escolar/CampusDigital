@@ -23,11 +23,14 @@ class EventParticipantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'event_id'     => 'required|exists:sport_events,id',
+            'sport_event_id'     => 'required|exists:sport_events,id',
             'student_id'   => 'required_without:team_id|nullable|exists:students,id',
-            'team_id'      => 'required_without:student_id|nullable|exists:school_teams,id',
-            'result_value' => 'nullable|string|max:50', // Marcador actual (goles, puntos)
-            'is_winner'    => 'nullable|boolean'
+            'school_team_id'      => 'required_without:student_id|nullable|exists:school_teams,id',
+            'external_participant_name' => 'nullable|string',
+            'external_institution' => 'nullable|string',
+            'result_value' => 'nullable|string', // Marcador actual (goles, puntos)
+            'is_winner'    => 'nullable|boolean',
+            'result_position' => 'nullable|string',
         ];
     }
 }

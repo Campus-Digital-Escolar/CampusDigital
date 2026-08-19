@@ -10,11 +10,14 @@ class EventParticipant extends Model
 {
     protected $table = 'event_participants';
     protected $fillable = [
-        'event_id',
+        'sport_event_id',
         'student_id',
-        'team_id',
+        'school_team_id',
         'result_value',
-        'is_winner'
+        'is_winner',
+        'result_position',
+        'external_participant_name',
+        'external_institution',
     ];
     protected $casts = ['is_winner' => 'boolean'];
 

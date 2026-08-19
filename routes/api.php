@@ -83,8 +83,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         // Equipos inscritos al deporte
         Route::get('/teams', [SportController::class, 'teams']);
 
-        // Próximos partidos / encuentros
-        Route::get('/matches', [SportController::class, 'matches']);
 
         // Tabla general / standings
         Route::get('/standings', [SportController::class, 'standings']);
@@ -118,7 +116,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/teams', [SportController::class, 'storeTeam']);
 
             // Próximos partidos / encuentros
-            Route::post('/matches', [SportController::class, 'storeMatch']);
+            Route::post('/event', [SportController::class, 'storeEvent']);
 
             // Definiciones estadísticas
             Route::post('/stat-definitions', [SportController::class, 'storeStatDefinition']);

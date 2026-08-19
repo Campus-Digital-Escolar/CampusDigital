@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
             $table->foreignId('sport_id')->constrained('sports')->onDelete('cascade');
             $table->foreignId('parent_event_id')->nullable()->constrained('sport_events')->onDelete('set null');
-            $table->foreignId('educational_level_id')->constrained('educational_levels');
             $table->foreignId('stage_id')->constrained('sport_stages');
+
             $table->dateTime('event_date');
             $table->boolean('is_live')->default(false);
             $table->enum('status', ['scheduled', 'ongoing', 'completed', 'cancelled'])->default('scheduled');

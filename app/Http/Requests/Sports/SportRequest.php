@@ -36,12 +36,18 @@ class SportRequest extends FormRequest
         return [
             'name' => 'required|string|max:100',
             'category' => 'required|string|max:100',
-            'school_id' => 'required|exists:schools,id',
             'icon_path' => 'nullable|file|mimes:svg,webp,png,jpg,jpeg|max:2048',
             'rules' => 'nullable|string',
             'status' => 'nullable|in:active,in_development',
-            'active' => 'nullable|boolean',
-            'statDefinitions' => 'nullable|string',
+
+            // tabla pivote
+            'school_id' => 'required|exists:schools,id',
+
+            'stat_definitions' => 'nullable|array',
+            'stat_definitions.*.name' => 'required|string|max:100',
+            'stat_definitions.*.code' => 'required|string|max:20',
+            'stat_definitions.*.description' => 'nullable|string',
+            'stat_definitions.*.data_type' => 'required|in:conteo,tiempo,texto',
         ];
     }
 }

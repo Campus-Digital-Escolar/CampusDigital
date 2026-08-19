@@ -20,6 +20,8 @@ return new class extends Migration
             $table->enum('data_type', ['conteo', 'tiempo', 'texto']);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['sport_id', 'code']);
         });
     }
 

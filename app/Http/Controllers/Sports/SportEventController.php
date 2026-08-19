@@ -11,20 +11,56 @@ use App\Models\SportEvent;
 use App\Traits\ApiResponse;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SportEventController extends Controller
 {
     use ApiResponse;
 
-    public function index()
+    public function index(Request $request)
     {
-        $events = SportEvent::with(['sport', 'stage', 'participants.team', 'participants.student.user'])->get();
-        return $this->successResponse(SportEventResource::collection($events));
+        $events = SportEvent::with(['participants.student', 'participants.team'])
+            ->when($request->sport_id, function ($query, $sportId) {
+                $query->ofSport($sportId);
+            })
+            ->latest()
+            ->paginate(15);
+
+        return SportEventResource::collection($events);
     }
 
     public function store(SportEventRequest $request)
     {
-        $event = SportEvent::create($request->validated());
-        return $this->successResponse(new SportEventResource($event), 'Encuentro deportivo agendado', 201);
+        return DB::transaction(function () use ($request) {
+            $event = SportEvent::create($request->validated());
+
+            foreach ($request->participants as $participant) {
+                $event->participants()->create($participant);
+            }
+
+            return new SportEventResource($event->load('participants'));
+        });
+    }
+
+    public function show(SportEvent $event)
+    {
+        return new SportEventResource($event->load('participants'));
+    }
+
+    public function update(SportEventRequest $request, SportEvent $event)
+    {
+        return DB::transaction(function () use ($request, $event) {
+            $event->update($request->validated());
+
+            if ($request->has('participants')) {
+                $event->participants()->delete();
+
+                foreach ($request->participants as $participant) {
+                    $event->participants()->create($participant);
+                }
+            }
+
+            return new SportEventResource($event->load(['participants.student', 'participants.team']));
+        });
     }
 }
